@@ -94,7 +94,7 @@ export const connectToSocket = (server) => {
                 }
                 */
                 messages[matchingRoom].push({ 'sender': sender, "data": data, "socket-id-sender": socket.id })
-                console.log("message", key, ":", sender, data)
+                console.log("message", matchingRoom, ":", sender, data)
 
                 //sending the msg for all user in the same room
                 connections[matchingRoom].forEach((elem) => {

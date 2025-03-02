@@ -13,6 +13,7 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import ChatIcon from '@mui/icons-material/Chat';
 import { use } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const server_url = "http://localhost:8080";
 
@@ -44,7 +45,7 @@ export default function VideoMeetComponent() {
 
     let [screen, setScreen] = useState();
 
-    let [showModal, setModal] = useState();
+    let [showModal, setModal] = useState(true);
 
     let [screenAvailable, setScreenAvailable] = useState();
 
@@ -349,9 +350,21 @@ export default function VideoMeetComponent() {
     }
 
 
-    let addMessage = () => {
+    let addMessage = (data, sender, socketIdSender) => {
 
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: sender, data: data }
+        ]);
+
+        if (socketIdSender !== socketIdRef.current) {
+            setNewMessages((prevMessages) => prevMessages + 1);
+        }
     }
+
+    let routeTo = useNavigate();
+
+
     let connect = () => {
         setAskForUsername(false)
         getMedia();
@@ -426,6 +439,21 @@ export default function VideoMeetComponent() {
     let handleScreen = () => {
         setScreen(!screen);
     }
+
+    let sendMessage = () => {
+        socketRef.current.emit("chat-message", message, username);
+        setMessage("");
+    }
+
+
+    let handleEndCall = () => {
+        try {
+            let tracks = localVideoRef.current.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+        } catch { e => console.log(e) }
+
+        routeTo("/home");
+    }
     return (
         <div>
             {askForUsername === true ?
@@ -444,13 +472,42 @@ export default function VideoMeetComponent() {
                 </div> :
                 <div className={styles.meetVideoContainer}>
 
+
+                    {showModal ?
+
+                        <div className={styles.chatRoom}>
+
+                            <div className={styles.chatContainer}>
+
+
+                                <h1>Chat</h1>
+                                <div className={styles.chattingDisplay}>
+
+                                    {messages.length > 0 ? messages.map((item, index) => {
+                                        return (
+                                            <div style={{ marginBottom: '10px' }} key={index}>
+                                                <p style={{ fontWeight: "bold" }}>{item.sender}</p>
+                                                <p>{item.data}</p>
+                                            </div>
+                                        )
+                                    }) : <p>No Messages</p>}
+                                </div>
+
+                                <div className={styles.chattingArea}>
+
+                                    <TextField value={message} onChange={e => setMessage(e.target.value)} id="outlined-basic" label="Enter Your Message" variant="outlined" />
+                                    <Button variant="contained" onClick={sendMessage}>Send</Button>
+                                </div>
+                            </div>
+                        </div> : <></>
+                    }
                     <div className={styles.buttonContainers}>
 
                         <IconButton onClick={handleVideo} style={{ color: 'white', fontSize: '32px' }}>
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
 
-                        <IconButton style={{ color: 'red', fontSize: '32px' }} >
+                        <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
                             <CallEndIcon />
                         </IconButton>
 
@@ -466,7 +523,7 @@ export default function VideoMeetComponent() {
                         }
 
                         <Badge badgeContent={newMessages} max={999} color="secondary">
-                            <IconButton style={{ color: 'white', fontSize: '32px' }} >
+                            <IconButton onClick={() => setModal(!showModal)} style={{ color: 'white', fontSize: '32px' }} >
                                 <ChatIcon />
                             </IconButton>
                         </Badge>

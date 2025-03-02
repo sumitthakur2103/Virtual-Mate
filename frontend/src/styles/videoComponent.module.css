@@ -9,7 +9,7 @@
     bottom: 10vh;
     height: 20vh;
     width: auto;
-    right: 0;
+    left: 0;
     border-radius: 20px;
 }
 
@@ -20,7 +20,7 @@
     width: 100vw;
 }
 
-.buttonContainers  svg{
+.buttonContainers svg {
     font-size: 3rem;
 }
 
@@ -31,8 +31,30 @@
     gap: 10px;
 }
 
-.conferenceView > video{
+.conferenceView>video {
     width: 40vw;
     min-width: 30vw;
     border-radius: 10px;
+}
+
+.chatRoom {
+    position: absolute;
+    height: 90vh;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    bottom: 10vh;
+    width: 30vw;
+    padding-inline: 20px;
+}
+  
+
+.chatContainer{
+    position: relative;
+    height: 100%;
+}
+
+.chattingArea{
+    position: absolute;
+    bottom: 0;
 }

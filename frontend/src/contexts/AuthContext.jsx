@@ -1,13 +1,12 @@
 import axios, { HttpStatusCode } from "axios";
-import { createContext, useContext, useState } from "react";
+import { useContext, createContext, useState } from "react"; // Removed useContext
 import { useNavigate } from "react-router-dom";
-
 
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL: "http://localhost:8000/api/v1/users"
-})
+    baseURL: "http://localhost:8080/api/v1/users"
+});
 
 export const AuthProvider = ({ children }) => {
 
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
                 name: name,
                 username: username,
                 password: password
-            })
+            });
 
             if (request.status === HttpStatusCode.Created) {
                 return request.data.message;
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }) => {
             console.log(err);
             throw err;
         }
-    }
+    };
 
     const handleLogin = async (username, password) => {
         try {
@@ -48,24 +47,45 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             throw err;
         }
-    }
+    };
 
+    const getHistoryOfUser = async () => {
+        try {
+            let request = await client.get("/get_all_activity", {
+                params: {
+                    token: localStorage.getItem("token")
+                }
+            });
+            return request.data;
+        } catch (err) {
+            throw err;
+        }
+    };
 
-
-
-
+    const addToUserHistory = async (meetingCode) => {
+        try {
+            let request = await client.post("/add_to_activity", {
+                token: localStorage.getItem("token"),
+                meeting_code: meetingCode
+            });
+            return request;
+        } catch (e) {
+            throw e;
+        }
+    };
 
     const data = {
         userData,
         setUserData,
+        addToUserHistory,
+        getHistoryOfUser,
         handleRegister,
         handleLogin
-    }
+    };
 
     return (
         <AuthContext.Provider value={data}>
             {children}
         </AuthContext.Provider>
-    )
-
-}
+    );
+};
