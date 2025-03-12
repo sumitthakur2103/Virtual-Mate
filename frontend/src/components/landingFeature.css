@@ -1,0 +1,130 @@
+.features {
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    padding: 50px 20px;
+    background: #040D12;
+}
+
+.features h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.feature-images {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature-box {
+    background: rgba(114, 112, 112, 0.4);
+    width: 20rem;
+    height: 25rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    /* text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); */
+}
+
+.feature-box-img {
+    height: 75%;
+    width: 100%;
+}
+
+#img1 {
+    background-image: url("../assets/videocall.jpg");
+    background-size: cover;
+}
+
+#img2 {
+    background-image: url("../assets/screenshare.jpg");
+    background-size: cover;
+}
+
+#img3 {
+    background-image: url("../assets/chat.jpg");
+    background-size: cover;
+}
+
+.feature-box-p {
+    height: 25%;
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 480px) {
+    .features h2 {
+        font-size: 1rem;
+    }
+
+    .feature-box {
+        background: rgba(114, 112, 112, 0.4);
+        width: 15rem;
+        height: 20rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .feature-box-p {
+        height: 25%;
+        display: flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 600;
+        color: white;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    .features h2 {
+        font-size: 2rem;
+    }
+
+    .feature-box {
+        background: rgba(114, 112, 112, 0.4);
+        width: 15rem;
+        height: 20rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .feature-box-p {
+        height: 25%;
+        display: flex;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        text-align: center;
+    }
+}

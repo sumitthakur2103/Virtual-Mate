@@ -1,0 +1,12 @@
+.footer {
+    background: #333;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+@media screen and (max-width: 480px) {}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {}

@@ -457,16 +457,35 @@ export default function VideoMeetComponent() {
     return (
         <div>
             {askForUsername === true ?
-                <div>
 
 
-                    <h2>Enter Into Lobby</h2>
-                    <TextField id="outlined-basic" label="username" value={username} variant="outlined" onChange={e => setUsername(e.target.value)} />
-                    <Button variant="contained" onClick={connect}>Connect</Button>
+
+                // Connecting Page
+                <div className={styles.connectingPage}>
+                    <div className={styles.navbar}>
+                        <div className={styles.logo}>Virtual-Mate</div>
+                    </div>
+                    <div className={styles.connectingPageContainer}>
+                        <div className={styles.connectingPageInput}>
+                            <h2>Let’s Connect & Meet! 🎥</h2>
+                            <TextField id="outlined-basic" label="Who’s joining? 🤔..." value={username} variant="outlined" onChange={e => setUsername(e.target.value)} />
+                            <Button variant="contained" onClick={connect}>Connect</Button>
+                        </div>
 
 
-                    <div>
-                        <video ref={localVideoRef} autoPlay muted></video>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
+                            <video ref={localVideoRef} autoPlay muted className={styles.connectingPageVideo}></video>
+                            <div className={styles.connectingPageVideoBtns}>
+
+                                <IconButton onClick={handleVideo} style={{ color: 'white', fontSize: '32px' }}>
+                                    {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
+                                </IconButton>
+                                <IconButton style={{ color: 'white', fontSize: '32px' }} onClick={handleAudio}>
+                                    {audio === true ? <MicIcon /> : <MicOffIcon />}
+                                </IconButton>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div> :

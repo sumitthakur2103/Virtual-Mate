@@ -1,0 +1,40 @@
+/* Hero Section */
+.hero {
+    width: 100%;
+
+    flex: 1;
+    /* Takes remaining space in .hero-container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Greyish Blur Effect for Hero Content */
+.hero-content {
+
+    height: 20rem;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    /* Semi-transparent grey */
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    max-width: 500px;
+}
+
+.hero-content>h1 {
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 480px) {}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {}

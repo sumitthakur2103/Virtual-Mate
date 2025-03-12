@@ -1,0 +1,30 @@
+.navbar {
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    /* Keeps it inside hero-container */
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    /* Slight dark overlay */
+    color: white;
+    z-index: 1000;
+    min-height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+@media screen and (max-width: 480px) {}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {}

@@ -47,14 +47,236 @@
     width: 30vw;
     padding-inline: 20px;
 }
-  
 
-.chatContainer{
+
+.chatContainer {
     position: relative;
     height: 100%;
 }
 
-.chattingArea{
+.chattingArea {
     position: absolute;
     bottom: 0;
+}
+
+
+
+
+/* CONNECTING PAGE */
+.connectingPage {
+    height: 100vh;
+    background-color: #3C3D37;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar {
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    z-index: 1000;
+    min-height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.connectingPageContainer {
+    height: 60vh;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.connectingPageInput {
+    width: 40%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #697565;
+    color: white;
+    border-radius: 20px;
+}
+
+.connectingPageInput>div {
+    background-color: #3C3D37;
+    border-radius: 20px;
+
+}
+
+.connectingPageInput>div>div {
+    border-radius: 20px;
+    color: white;
+    font-weight: 400;
+}
+
+
+.connectingPageInput>div>label {
+    color: white;
+}
+
+.connectingPageInput button {
+    background-color: #3C3D37;
+    border-radius: 10px;
+
+}
+
+.connectingPageInput button:hover {
+    background-color: black;
+    transform: scale(1.05);
+}
+
+.connectingPageVideo {
+    height: 25rem;
+    border-radius: 20px;
+}
+
+.connectingPageVideoBtns {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    background-color: #697565;
+    border-radius: 20px;
+}
+
+.connectingPageVideoBtns button {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #3C3D37;
+    color: white;
+    border: none;
+}
+
+.connectingPageVideoBtns button:hover {
+    background-color: black;
+    transform: scale(1.1);
+}
+
+@media screen and (max-width: 480px) {
+    .connectingPageContainer {
+        height: 70vh;
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100%;
+        justify-content: start;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .connectingPageInput {
+        height: auto;
+        padding: 30px;
+        width: 300px;
+    }
+
+    .connectingPageInput>h2 {
+        font-size: 0.75rem;
+    }
+
+    .connectingPageInput>div {
+        width: 80%;
+    }
+
+    .connectingPageInput>div>label {
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+        font-size: 0.6rem;
+    }
+
+
+    .connectingPageInput>div>div {
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+        font-size: 0.6rem;
+    }
+
+    .connectingPageInput>div>div {
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+        font-size: 0.6rem;
+    }
+
+    .connectingPageInput button {
+        background-color: #3C3D37;
+        border-radius: 10px;
+        font-size: 0.6rem;
+    }
+
+    .connectingPageVideo {
+        height: 10rem;
+        border-radius: 20px;
+    }
+
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    .connectingPageContainer {
+        height: 70vh;
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100%;
+        justify-content: start;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .connectingPageInput {
+        width: 400px;
+    }
+
+    .connectingPageInput>h2 {
+        font-size: 1rem;
+    }
+
+    .connectingPageInput>div {
+        width: 40%;
+    }
+
+    .connectingPageInput>div>label {
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+        font-size: 0.8rem;
+    }
+
+
+    .connectingPageInput>div>div {
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+        font-size: 0.8rem;
+    }
+
+    .connectingPageInput button {
+        background-color: #3C3D37;
+        border-radius: 10px;
+        font-size: 0.8rem;
+    }
+
+    .connectingPageVideo {
+        height: 15rem;
+        border-radius: 20px;
+    }
 }
