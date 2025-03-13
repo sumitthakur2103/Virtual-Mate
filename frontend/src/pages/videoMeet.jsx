@@ -489,67 +489,12 @@ export default function VideoMeetComponent() {
                     </div>
 
                 </div> :
-                <div className={styles.meetVideoContainer}>
 
 
-                    {showModal ?
-
-                        <div className={styles.chatRoom}>
-
-                            <div className={styles.chatContainer}>
 
 
-                                <h1>Chat</h1>
-                                <div className={styles.chattingDisplay}>
-
-                                    {messages.length > 0 ? messages.map((item, index) => {
-                                        return (
-                                            <div style={{ marginBottom: '10px' }} key={index}>
-                                                <p style={{ fontWeight: "bold" }}>{item.sender}</p>
-                                                <p>{item.data}</p>
-                                            </div>
-                                        )
-                                    }) : <p>No Messages</p>}
-                                </div>
-
-                                <div className={styles.chattingArea}>
-
-                                    <TextField value={message} onChange={e => setMessage(e.target.value)} id="outlined-basic" label="Enter Your Message" variant="outlined" />
-                                    <Button variant="contained" onClick={sendMessage}>Send</Button>
-                                </div>
-                            </div>
-                        </div> : <></>
-                    }
-                    <div className={styles.buttonContainers}>
-
-                        <IconButton onClick={handleVideo} style={{ color: 'white', fontSize: '32px' }}>
-                            {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
-                        </IconButton>
-
-                        <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
-                            <CallEndIcon />
-                        </IconButton>
-
-
-                        <IconButton style={{ color: 'white', fontSize: '32px' }} onClick={handleAudio}>
-                            {audio === true ? <MicIcon /> : <MicOffIcon />}
-                        </IconButton>
-
-                        {screenAvailable === true ?
-                            <IconButton onClick={handleScreen} style={{ color: 'white' }}>
-                                {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
-                            </IconButton> : <></>
-                        }
-
-                        <Badge badgeContent={newMessages} max={999} color="secondary">
-                            <IconButton onClick={() => setModal(!showModal)} style={{ color: 'white', fontSize: '32px' }} >
-                                <ChatIcon />
-                            </IconButton>
-                        </Badge>
-                    </div>
-
-                    <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
-
+                // Video Meet Page
+                <div className={styles.videoMeetAllContentDiv}>
                     <div className={styles.conferenceView}>
                         {videos.map((video) => (
                             <div key={video.socketId}>
@@ -568,7 +513,156 @@ export default function VideoMeetComponent() {
                             </div>
                         ))}
                     </div>
+
+
+
+                    <div className={styles.localUserInterface}>
+                        <div className={styles.localUserVideo}>
+                            <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
+
+
+                            <div className={styles.buttonContainers}>
+
+                                <IconButton onClick={handleVideo} style={{ color: 'white', fontSize: '32px' }}>
+                                    {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
+                                </IconButton>
+
+
+                                <IconButton style={{ color: 'white', fontSize: '32px' }} onClick={handleAudio}>
+                                    {audio === true ? <MicIcon /> : <MicOffIcon />}
+                                </IconButton>
+
+
+                                <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
+                                    <CallEndIcon />
+                                </IconButton>
+
+                                {screenAvailable === true ?
+                                    <IconButton onClick={handleScreen} style={{ color: 'white' }}>
+                                        {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
+                                    </IconButton> : <></>
+                                }
+
+                                <Badge badgeContent={newMessages} max={999} color="secondary">
+                                    <IconButton onClick={() => setModal(!showModal)} style={{ color: 'white', fontSize: '32px' }} >
+                                        <ChatIcon />
+                                    </IconButton>
+                                </Badge>
+                            </div>
+
+                        </div>
+                        <div className={styles.localUserChat}>
+                            {showModal ?
+
+                                <div className={styles.chatRoom}>
+
+                                    <div className={styles.chatContainer}>
+
+
+                                        <h1>Chat</h1>
+                                        <div className={styles.chattingDisplay}>
+
+                                            {messages.length > 0 ? messages.map((item, index) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <p style={{ fontWeight: "bold" }}>{item.sender} :</p>
+                                                        <p>{item.data}</p>
+                                                    </div>
+                                                )
+                                            }) : <p>No Messages</p>}
+                                        </div>
+
+                                    </div>
+
+                                    <div className={styles.chattingArea}>
+
+                                        <TextField value={message} onChange={e => setMessage(e.target.value)} id="outlined-basic" label="Enter Your Message" variant="outlined" />
+                                        <Button variant="contained" onClick={sendMessage}>Send</Button>
+                                    </div>
+                                </div> : <></>
+                            }
+                        </div>
+                    </div>
                 </div>
+                // <div className={styles.meetVideoContainer}>
+
+                // {showModal ?
+
+                //     <div className={styles.chatRoom}>
+
+                //         <div className={styles.chatContainer}>
+
+
+                //             <h1>Chat</h1>
+                //             <div className={styles.chattingDisplay}>
+
+                //                 {messages.length > 0 ? messages.map((item, index) => {
+                //                     return (
+                //                         <div style={{ marginBottom: '10px' }} key={index}>
+                //                             <p style={{ fontWeight: "bold" }}>{item.sender}</p>
+                //                             <p>{item.data}</p>
+                //                         </div>
+                //                     )
+                //                 }) : <p>No Messages</p>}
+                //             </div>
+
+                //             <div className={styles.chattingArea}>
+
+                //                 <TextField value={message} onChange={e => setMessage(e.target.value)} id="outlined-basic" label="Enter Your Message" variant="outlined" />
+                //                 <Button variant="contained" onClick={sendMessage}>Send</Button>
+                //             </div>
+                //         </div>
+                //     </div> : <></>
+                // }
+                // <div className={styles.buttonContainers}>
+
+                //     <IconButton onClick={handleVideo} style={{ color: 'white', fontSize: '32px' }}>
+                //         {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
+                //     </IconButton>
+
+                //     <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
+                //         <CallEndIcon />
+                //     </IconButton>
+
+
+                //     <IconButton style={{ color: 'white', fontSize: '32px' }} onClick={handleAudio}>
+                //         {audio === true ? <MicIcon /> : <MicOffIcon />}
+                //     </IconButton>
+
+                //     {screenAvailable === true ?
+                //         <IconButton onClick={handleScreen} style={{ color: 'white' }}>
+                //             {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
+                //         </IconButton> : <></>
+                //     }
+
+                //     <Badge badgeContent={newMessages} max={999} color="secondary">
+                //         <IconButton onClick={() => setModal(!showModal)} style={{ color: 'white', fontSize: '32px' }} >
+                //             <ChatIcon />
+                //         </IconButton>
+                //     </Badge>
+                // </div>
+
+                //     <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
+
+                // <div className={styles.conferenceView}>
+                //     {videos.map((video) => (
+                //         <div key={video.socketId}>
+
+                //             <video
+                //                 data-socket={video.socketId}
+                //                 ref={ref => {
+                //                     if (ref && video.stream) {
+                //                         ref.srcObject = video.stream;
+                //                     }
+                //                 }}
+                //                 autoPlay
+                //             >
+
+                //             </video>
+                //         </div>
+                //     ))}
+                // </div>
+                // </div>
             }
         </div>
     )
