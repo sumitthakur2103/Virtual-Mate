@@ -27,13 +27,8 @@ function HomeComponent() {
                 </div>
                 <div className="content">
                     <p>
-                        We’d love to hear your thoughts! Share your feedback and help us make your meetings even better. 😊✨
+                    You have left the meeting. Thank you for joining!👋😊✨
                     </p>
-                    <textarea
-                        placeholder="Share your thoughts..."
-                        className="feedback-textarea"
-                    ></textarea>
-                    <button className="submit-button">Drop Feedback</button>
                     <button onClick ={handleHome} className="submit-button">Back To Home</button>
 
                 </div>

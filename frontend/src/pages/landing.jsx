@@ -3,10 +3,9 @@ import "../styles/landing.css"; // Import CSS file
 import Navbar from "../components/navbar";
 import LandingHero from "../components/landingHero";
 import LandingFeature from "../components/landingFeature";
-import LandingFeedback from "../components/landingFeedback";
 import Footer from "../components/footer";
 export default function LandingPage() {
-  
+
 
   return (
     <div className="container">
@@ -19,8 +18,6 @@ export default function LandingPage() {
       {/* Features Section */}
       <LandingFeature />
 
-      {/* Feedback Section */}  
-      <LandingFeedback />
 
       {/* Footer Section */}
       <Footer />
