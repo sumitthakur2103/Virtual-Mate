@@ -58,7 +58,7 @@ export default function VideoMeetComponent() {
     let [askForUsername, setAskForUsername] = useState(true);
 
     let [username, setUsername] = useState("");
-
+    const [error, setError] = useState(false);
     const videoRef = useRef([]);
 
     let [videos, setVideos] = useState([]);
@@ -360,8 +360,13 @@ export default function VideoMeetComponent() {
 
 
     let connect = () => {
-        setAskForUsername(false)
-        getMedia();
+        if (username.trim() === '') {
+            setError(true);
+        } else {
+            setError(false);
+            setAskForUsername(false)
+            getMedia();
+        }
     }
 
 
@@ -465,8 +470,14 @@ export default function VideoMeetComponent() {
                     <div className={styles.connectingPageContainer}>
                         <div className={styles.connectingPageInput}>
                             <h2>Let’s Connect & Meet! 🎥</h2>
-                            <TextField id="outlined-basic" label="Who’s joining? 🤔..." value={username} variant="outlined" onChange={e => setUsername(e.target.value)} />
-                            <Button variant="contained" onClick={connect}>Connect</Button>
+                            <TextField id="outlined-basic"
+                                label="Who’s joining? 🤔..."
+                                value={username}
+                                variant="outlined"
+                                onChange={(e) => setUsername(e.target.value)}
+                                error={error}
+                                helperText={error ? 'Please enter your username to join the meeting' : ''} />
+                            <Button variant="contained" onClick={connect} sx={{ marginLeft: 2 }}>Connect</Button>
                         </div>
 
 
