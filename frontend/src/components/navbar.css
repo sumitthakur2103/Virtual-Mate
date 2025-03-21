@@ -18,6 +18,9 @@
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    font-family: "Alfa Slab One", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .nav-links {
@@ -25,8 +28,22 @@
     gap: 15px;
 }
 
+.nav-links button {
+    font-family: "Inknut Antiqua", serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 0.8rem;
+}
+
 .menu {
     display: none;
+}
+
+.menu button {
+    font-family: "Inknut Antiqua", serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 0.6rem;
 }
 
 .show {

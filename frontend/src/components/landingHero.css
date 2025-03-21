@@ -33,6 +33,15 @@
 
 .hero-content>h1 {
     font-size: 1.5rem;
+    font-family: "Carter One", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.hero-content button {
+    font-family: "Inknut Antiqua", serif;
+    font-weight: 300;
+    font-style: normal;
 }
 
 @media screen and (max-width: 480px) {}
