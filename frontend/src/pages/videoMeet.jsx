@@ -64,11 +64,9 @@ export default function VideoMeetComponent() {
     let [videos, setVideos] = useState([]);
 
     useEffect(() => {
-        console.log("HELLO")
         getPermissions();
     }, []);
 
-    console.log("REFRESHED");
 
     const getPermissions = async () => {
         try {
@@ -76,21 +74,17 @@ export default function VideoMeetComponent() {
 
             if (videoPermission) {
                 setVideoAvailable(true);
-                console.log('Video permission granted');
             }
             else {
                 setVideoAvailable(false);
-                console.log('Video permission denied');
             }
 
             const audioPermission = await navigator.mediaDevices.getUserMedia({ audio: true })
             if (audioPermission) {
                 setAudioAvailable(true);
-                console.log('Audio permission granted');
             }
             else {
                 setAudioAvailable(false);
-                console.log('Audio permission denied');
             }
 
             if (navigator.mediaDevices.getDisplayMedia) {
@@ -231,102 +225,101 @@ export default function VideoMeetComponent() {
 
 
     let connectToSocketServer = () => {
-        if (!socketRef.current) {
-            socketRef.current = io.connect(server_url, { secure: false });
 
-            socketRef.current.on('signal', gotMessageFromServer);
+        socketRef.current = io.connect(server_url, { secure: false });
 
-            socketRef.current.on('connect', () => {
+        socketRef.current.on('signal', gotMessageFromServer);
 
-                socketRef.current.emit("join-call", window.location.href);
+        socketRef.current.on('connect', () => {
 
-                socketIdRef.current = socketRef.current.id;
+            socketRef.current.emit("join-call", window.location.href);
 
-                socketRef.current.on('chat-message', addMessage);
+            socketIdRef.current = socketRef.current.id;
 
-                socketRef.current.on('user-left', (id) => {
-                    setVideo((videos) => videos.filter((video) => video.socketId !== id))
-                });
+            socketRef.current.on('chat-message', addMessage);
 
-                socketRef.current.on("user-joined", (id, clients) => {
+            socketRef.current.on('user-left', (id) => {
+                setVideo((videos) => videos.filter((video) => video.socketId !== id))
+            });
 
-                    clients.forEach((socketListId) => {
-                        connections[socketListId] = new RTCPeerConnection(peerConfigConnections);
+            socketRef.current.on("user-joined", (id, clients) => {
 
-                        connections[socketListId].onicecandidate = (event) => {
+                clients.forEach((socketListId) => {
+                    connections[socketListId] = new RTCPeerConnection(peerConfigConnections);
 
-                            if (event.candidate !== null) {
-                                socketRef.current.emit("signal", socketListId, JSON.stringify({ 'ice': event.candidate }))
-                            }
+                    connections[socketListId].onicecandidate = (event) => {
 
+                        if (event.candidate !== null) {
+                            socketRef.current.emit("signal", socketListId, JSON.stringify({ 'ice': event.candidate }))
                         }
 
-                        //handling the addition of video/audio streams when a peer sends their media stream to the current user. 
-                        connections[socketListId].onaddstream = (event) => {
-                            let videoExists = videoRef.current.find(video => video.socketId === socketListId);
+                    }
 
-                            if (videoExists) {
-                                setVideos(videos => {
-                                    const updatedVideos = videos.map(video =>
-                                        video.socketId === socketListId ? { ...video, stream: event.stream } : video
-                                    );
-                                    videoRef.current = updatedVideos;
-                                    return updatedVideos;
-                                });
-                            } else {
+                    //handling the addition of video/audio streams when a peer sends their media stream to the current user. 
+                    connections[socketListId].onaddstream = (event) => {
+                        let videoExists = videoRef.current.find(video => video.socketId === socketListId);
 
-                                let newVideo = {
-                                    socketId: socketListId,
-                                    stream: event.stream,
-                                    autoPlay: true,
-                                    playsinline: true
-                                }
-                                setVideos(videos => {
-                                    const updatedVideos = [...videos, newVideo];
-                                    videoRef.current = updatedVideos;
-                                    return updatedVideos;
-                                });
-                            }
-                        }
-
-
-                        //handles sending the current user's media stream (video/audio) to other users in the call and setting up peer-to-peer connections for communication.
-                        if (window.localStream !== undefined && window.localStream !== null) {
-                            connections[socketListId].addStream(window.localStream);
+                        if (videoExists) {
+                            setVideos(videos => {
+                                const updatedVideos = videos.map(video =>
+                                    video.socketId === socketListId ? { ...video, stream: event.stream } : video
+                                );
+                                videoRef.current = updatedVideos;
+                                return updatedVideos;
+                            });
                         } else {
-                            //todo blacksilence
 
-                            let blacksilence = (...args) => new MediaStream([black(...args), silence()])
-                            window.localStream = blacksilence();
-                            connections[socketListId].addStream(window.localStream);
-                        }
-                    })
-
-                    if (id === socketIdRef.current) {
-                        for (let id2 in connections) {
-                            if (id2 === socketIdRef.current) continue
-
-                            try {
-                                connections[id2].addStream(window.localStream);
-                            } catch (e) {
-                                console.log(e)
+                            let newVideo = {
+                                socketId: socketListId,
+                                stream: event.stream,
+                                autoPlay: true,
+                                playsinline: true
                             }
-
-                            //saare users offer create karenge and also answer k liye rqst karenge for newly joined user
-                            connections[id2].createOffer().then((description) => {
-                                connections[id2].setLocalDescription(description)
-                                    .then(() => {
-                                        socketRef.current.emit("signal", id2, JSON.stringify({ "sdp": connections[id2].localDescription }))
-                                    })
-                                    .catch((e) => {
-                                        console.log(e);
-                                    });
+                            setVideos(videos => {
+                                const updatedVideos = [...videos, newVideo];
+                                videoRef.current = updatedVideos;
+                                return updatedVideos;
                             });
                         }
                     }
+
+
+                    //handles sending the current user's media stream (video/audio) to other users in the call and setting up peer-to-peer connections for communication.
+                    if (window.localStream !== undefined && window.localStream !== null) {
+                        connections[socketListId].addStream(window.localStream);
+                    } else {
+                        //todo blacksilence
+
+                        let blacksilence = (...args) => new MediaStream([black(...args), silence()])
+                        window.localStream = blacksilence();
+                        connections[socketListId].addStream(window.localStream);
+                    }
                 })
-            });
-        }
+
+                if (id === socketIdRef.current) {
+                    for (let id2 in connections) {
+                        if (id2 === socketIdRef.current) continue
+
+                        try {
+                            connections[id2].addStream(window.localStream);
+                        } catch (e) {
+                            console.log(e)
+                        }
+
+                        //saare users offer create karenge and also answer k liye rqst karenge for newly joined user
+                        connections[id2].createOffer().then((description) => {
+                            connections[id2].setLocalDescription(description)
+                                .then(() => {
+                                    socketRef.current.emit("signal", id2, JSON.stringify({ "sdp": connections[id2].localDescription }))
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                });
+                        });
+                    }
+                }
+            })
+        })
     }
 
 
@@ -374,47 +367,7 @@ export default function VideoMeetComponent() {
 
     let handleVideo = () => {
         setVideo(!video);
-        if (!video) {
-            // Turn off video: Replace with black stream
-            let blacksilence = new MediaStream([black(), silence()]);
-            window.localStream = blacksilence;
-            localVideoRef.current.srcObject = blacksilence;
-
-            for (let id in connections) {
-                connections[id].addStream(window.localStream);
-                connections[id].createOffer().then((description) => {
-                    connections[id].setLocalDescription(description).then(() => {
-                        socketRef.current.emit("signal", id, JSON.stringify({ "sdp": connections[id].localDescription }));
-                    });
-                });
-            }
-        } else {
-            // Turn on video: Restore original stream
-            navigator.mediaDevices.getUserMedia({ video: true, audio: audio }).then((stream) => {
-                window.localStream = stream;
-                localVideoRef.current.srcObject = stream;
-
-                for (let id in connections) {
-                    connections[id].addStream(window.localStream);
-                    connections[id].createOffer().then((description) => {
-                        connections[id].setLocalDescription(description).then(() => {
-                            socketRef.current.emit("signal", id, JSON.stringify({ "sdp": connections[id].localDescription }));
-                        });
-                    });
-                }
-            });
-        }
     }
-
-    useEffect(() => {
-        if (socketRef.current) {
-            socketRef.current.on('user-left', (id) => {
-                // Remove the video of the user who left
-                setVideos((videos) => videos.filter((video) => video.socketId !== id));
-            });
-        }
-    }, []);
-
 
     let handleAudio = () => {
         setAudio(!audio);
@@ -544,15 +497,9 @@ export default function VideoMeetComponent() {
                         className={styles.conferenceView}
                         style={{
                             display: "grid",
-                            gridTemplateColumns: `repeat(auto-fit, minmax(${videos.length === 1
-                                ? '100%'
-                                : window.innerWidth > 1024
-                                    ? '300px' // fixed size for larger screens
-                                    : window.innerWidth < 768
-                                        ? '100%'
-                                        : Math.max(100, 800 / Math.ceil(Math.sqrt(videos.length)))
-                                }px, 1fr))`,
-
+                            gridTemplateColumns: `repeat(auto-fit, minmax(${window.innerWidth < 768 ? "100%" :
+                                window.innerWidth < 480 ? "100%" :
+                                    Math.max(100, 800 / Math.ceil(Math.sqrt(videos.length)))}px, 1fr))`,
                             gridTemplateRows: "auto",
                             gap: "10px",
                             overflowY: "auto",
@@ -572,22 +519,8 @@ export default function VideoMeetComponent() {
                                     autoPlay
                                     className={styles.videoElement}
                                     style={{
-                                        width: `${videos.length === 1
-                                                ? '100%'
-                                                : window.innerWidth > 1024
-                                                    ? '300px'
-                                                    : window.innerWidth < 480
-                                                        ? '100%'
-                                                        : Math.max(100, 800 / Math.ceil(Math.sqrt(videos.length)))
-                                            }px`,
-                                        height: `${videos.length === 1
-                                                ? '100%'
-                                                : window.innerWidth > 1024
-                                                    ? '225px' // 4:3 aspect ratio for 300px width
-                                                    : window.innerWidth < 480
-                                                        ? '100%'
-                                                        : Math.max(75, (800 / Math.ceil(Math.sqrt(videos.length))) * 0.75)
-                                            }px`,
+                                        width: `${window.innerWidth < 468 ? "100%" : Math.max(100, 800 / Math.ceil(Math.sqrt(videos.length)))}px`,
+                                        height: `${window.innerWidth < 468 ? "100%" : Math.max(75, (800 / Math.ceil(Math.sqrt(videos.length))) * 0.75)}px`,
                                     }}
                                 />
                             </div>
@@ -614,7 +547,7 @@ export default function VideoMeetComponent() {
                                 </IconButton>
 
 
-                                <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
+                                <IconButton onClick={handleEndCall} style={{ backgroundColor: "red", color: 'white', fontSize: '32px' }} >
                                     <CallEndIcon />
                                 </IconButton>
 
@@ -679,7 +612,7 @@ export default function VideoMeetComponent() {
                         </IconButton>
 
 
-                        <IconButton onClick={handleEndCall} style={{ color: 'red', fontSize: '32px' }} >
+                        <IconButton onClick={handleEndCall} style={{ backgroundColor: "red", color: 'white', fontSize: '32px' }} >
                             <CallEndIcon />
                         </IconButton>
 
