@@ -9,7 +9,7 @@ export const connectToSocket = (server) => {
     const io = new Server(server, {
         //allow cors so that our websockets and http server works smoothly
         cors: {
-            origin: "https://virtual-mate-frontend.onrender.com", // Allow frontend domain
+            origin: "*",
             methods: ["GET", "POST"],
             allowedHeaders: "*",
             credentials: true
