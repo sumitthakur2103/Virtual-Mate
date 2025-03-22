@@ -16,7 +16,7 @@ import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
 import server from '../enviroment';
 
-const server_url = server.prod;
+const server_url = server;
 
 var connections = {};
 
