@@ -14,8 +14,9 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import ChatIcon from '@mui/icons-material/Chat';
 import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
+import server from '../enviroment';
 
-const server_url = "http://localhost:8080";
+const server_url = server.prod;
 
 var connections = {};
 
