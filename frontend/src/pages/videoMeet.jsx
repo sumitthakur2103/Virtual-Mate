@@ -16,7 +16,7 @@ import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
 import server from '../enviroment';
 
-const server_url = server;
+const server_url = "https://virtual-mate-backend.onrender.com"; // Explicitly set the backend URL
 
 var connections = {};
 
@@ -226,8 +226,7 @@ export default function VideoMeetComponent() {
 
 
     let connectToSocketServer = () => {
-
-        socketRef.current = io.connect(server_url, { secure: false });
+        socketRef.current = io.connect(server_url, { secure: true, transports: ["websocket", "polling"] }); // Use WebSocket and fallback to polling
 
         socketRef.current.on('signal', gotMessageFromServer);
 
