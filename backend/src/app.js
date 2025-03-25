@@ -34,7 +34,13 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
-//
+// Serve static files from the frontend build directory
+app.use(express.static(join(__dirname, '../../frontend/dist')));
+
+// Fallback route to serve index.html for unknown routes
+app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '../../frontend/dist/index.html'));
+});
 
 app.get("/home", (req, res) => {
     return res.json({ "hello": "World" });

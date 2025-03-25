@@ -11,4 +11,7 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Ensure this is set to 'dist'
   },
+  server: {
+    historyApiFallback: true, // Ensure fallback for SPA routing in dev mode
+  }
 })
