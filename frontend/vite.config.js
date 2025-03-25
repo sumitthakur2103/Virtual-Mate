@@ -11,8 +11,4 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Ensure this is set to 'dist'
   },
-  base: '/', // Ensure the base path is set correctly
-  server: {
-    historyApiFallback: true // Ensure fallback to index.html for SPA
-  }
 })
