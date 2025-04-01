@@ -8,7 +8,7 @@ import { connectToSocket } from "./controllers/socketManager.js";
 //from learning
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-
+import path from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -34,7 +34,13 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'index.html'));
 });
 
-//
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// Catch-all route to serve the React app for unknown routes
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 app.get("/home", (req, res) => {
     return res.json({ "hello": "World" });
